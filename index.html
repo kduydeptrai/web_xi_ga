@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HMB Agency - Thế Giới Cigar Thượng Lưu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- THEME & RESET STYLE --- */
+        :root {
+            --primary-color: #1a110b; /* Nâu trầm Cigar */
+            --secondary-color: #2c1d11; /* Nâu sáng gỗ tuyết tùng */
+            --gold-color: #d4af37; /* Vàng ánh kim */
+            --gold-hover: #f3e5ab;
+            --text-light: #f5f5f5;
+            --text-muted: #b5a496;
+            --bg-light: #faf6f0; /* Kem nhạt cho trang sản phẩm */
+            --font-serif: 'Playfair Display', Georgia, serif;
+            --font-sans: 'Montserrat', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-sans); background-color: var(--primary-color); color: var(--text-light); line-height: 1.6; }
+
+        /* --- POPUP XÁC MINH ĐỘ TUỔI (18+) --- */
+        #age-verify-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(10, 6, 4, 0.98); z-index: 9999;
+            display: flex; justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(10px);
+        }
+        .age-box {
+            background-color: var(--secondary-color); border: 2px solid var(--gold-color);
+            padding: 40px 20px; max-width: 500px; width: 100%; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.7); border-radius: 4px;
+        }
+        .age-box i { font-size: 3rem; color: var(--gold-color); margin-bottom: 20px; }
+        .age-box h2 { font-family: var(--font-serif); font-size: 1.8rem; color: var(--gold-color); margin-bottom: 15px; }
+        .age-box p { color: var(--text-muted); margin-bottom: 30px; font-size: 0.95rem; }
+        .age-buttons { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
+        .btn-age { padding: 12px 30px; border: none; cursor: pointer; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s; width: 100%; max-width: 180px; }
+        .btn-yes { background-color: var(--gold-color); color: var(--primary-color); }
+        .btn-yes:hover { background-color: var(--gold-hover); transform: translateY(-2px); }
+        .btn-no { background-color: transparent; color: var(--text-muted); border: 1px solid var(--text-muted); }
+        .btn-no:hover { color: #ff4d4d; border-color: #ff4d4d; }
+
+        /* --- HEADER & NAVIGATION --- */
+        header { background-color: rgba(26, 17, 11, 0.95); position: fixed; top: 0; width: 100%; z-index: 100; border-bottom: 1px solid rgba(212, 175, 55, 0.2); }
+        .navbar { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 20px; position: relative; }
+        .logo h1 { font-family: var(--font-serif); color: var(--gold-color); font-size: 1.4rem; letter-spacing: 2px; cursor: pointer; }
+        
+        /* Menu Toggle (Hamburger Icon) */
+        .menu-toggle { display: none; font-size: 1.5rem; color: var(--gold-color); cursor: pointer; transition: transform 0.3s; }
+        
+        .nav-links { display: flex; list-style: none; gap: 30px; }
+        .nav-links a { color: var(--text-light); text-decoration: none; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: color 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--gold-color); }
+
+        /* --- CƠ CHẾ CHUYỂN TRANG --- */
+        .webpage { display: none; padding-top: 70px; animation: fadeIn 0.4s ease-in-out; }
+        .webpage.active-page { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* --- [PAGE 1]: TRANG CHỦ STYLES --- */
+        .hero { height: calc(100vh - 70px); background: linear-gradient(rgba(26, 17, 11, 0.6), rgba(26, 17, 11, 0.9)), url('https://images.unsplash.com/photo-1541532713592-79a0317b6b77?q=80&w=1920') center center/cover; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 20px; }
+        .hero-content h2 { font-family: var(--font-serif); font-size: 3.5rem; color: var(--gold-color); margin-bottom: 20px; font-style: italic; line-height: 1.2; }
+        .hero-content p { font-size: 1.2rem; max-width: 600px; margin: 0 auto 40px; color: var(--text-light); font-weight: 300; }
+        
+        .about { padding: 80px 20px; max-width: 900px; margin: 0 auto; text-align: center; }
+        .section-title { font-family: var(--font-serif); font-size: 2.5rem; color: var(--gold-color); margin-bottom: 20px; position: relative; padding-bottom: 15px; }
+        .section-title::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 1px; background-color: var(--gold-color); }
+        .about p { color: var(--text-muted); margin-top: 30px; font-size: 1.1rem; }
+
+        .entrances { background-color: #110a06; padding: 80px 20px; display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
+        .entrance-card { background-color: var(--secondary-color); border: 1px solid rgba(212, 175, 55, 0.2); padding: 40px 20px; width: calc(50% - 15px); min-width: 280px; text-align: center; border-radius: 6px; }
+        .entrance-card h3 { font-family: var(--font-serif); font-size: 1.8rem; color: var(--gold-color); margin-bottom: 15px; }
+        .entrance-card p { color: var(--text-muted); margin-bottom: 30px; font-size: 0.95rem; }
+
+        /* --- [PAGE 2 & 3]: SHOP STYLES --- */
+        .shop-wrapper { background-color: var(--bg-light); color: var(--primary-color); padding: 50px 20px; min-height: 80vh; }
+        .shop-content { max-width: 1200px; margin: 0 auto; }
+        .shop-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; border-bottom: 2px solid #e2dacd; padding-bottom: 20px; flex-wrap: wrap; gap: 20px; }
+        .shop-header h2 { font-family: var(--font-serif); font-size: 2.5rem; color: var(--primary-color); }
+        .filter-group { display: flex; gap: 15px; }
+        .filter-select { padding: 10px 15px; border: 1px solid #c4b49e; background-color: #fff; font-family: var(--font-sans); color: var(--primary-color); font-weight: 600; outline: none; cursor: pointer; border-radius: 4px; font-size: 0.9rem; }
+        
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
+        
+        .product-card { 
+            background-color: #fff; border: 1px solid #eee; padding: 20px; 
+            text-align: center; position: relative; transition: all 0.3s; 
+            display: flex; flex-direction: column; justify-content: space-between; border-radius: 8px;
+        }
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .product-img { width: 100%; height: 220px; object-fit: cover; margin-bottom: 20px; background-color: #fafafa; border-radius: 4px; }
+        .badge { position: absolute; top: 15px; left: 15px; background-color: var(--primary-color); color: var(--gold-color); padding: 4px 10px; font-size: 0.72rem; font-weight: 600; border: 1px solid var(--gold-color); border-radius: 2px; z-index: 2; }
+        .product-brand { font-size: 0.8rem; text-transform: uppercase; color: #888; letter-spacing: 1px; margin-bottom: 5px; }
+        
+        .product-name { 
+            font-family: var(--font-sans); font-size: 1.1rem; font-weight: 600; letter-spacing: -0.2px;
+            margin-bottom: 10px; color: var(--primary-color); min-height: 52px; 
+            display: flex; justify-content: center; align-items: center; 
+        }
+        
+        .product-specs { display: flex; justify-content: center; gap: 15px; font-size: 0.78rem; color: #666; margin-bottom: 15px; padding: 8px 0; border-top: 1px dashed #eee; border-bottom: 1px dashed #eee; }
+        .product-price { font-weight: 600; color: var(--secondary-color); font-size: 1.1rem; margin-bottom: 15px; }
+
+        .btn-buy-now {
+            width: 100%; padding: 12px; background-color: var(--primary-color); color: var(--gold-color);
+            border: 1px solid var(--gold-color); font-family: var(--font-sans); font-weight: 600;
+            text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; border-radius: 4px;
+            cursor: pointer; transition: all 0.3s; margin-top: auto;
+        }
+        .btn-buy-now:hover { background-color: var(--gold-color); color: var(--primary-color); box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2); }
+
+        /* --- 🛍️ POPUP CHI TIẾT SẢN PHẨM (QUICK VIEW) --- */
+        #quick-view-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(10, 6, 4, 0.85); z-index: 2000;
+            display: none; justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(8px);
+        }
+        .modal-container {
+            background-color: #fff; color: var(--primary-color); max-width: 850px; width: 100%;
+            border-radius: 12px; display: grid; grid-template-columns: 1fr 1fr; overflow: hidden;
+            position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.5); animation: modalReveal 0.3s ease-out;
+        }
+        @keyframes modalReveal { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        
+        .modal-close { position: absolute; top: 12px; right: 20px; font-size: 2rem; color: #888; cursor: pointer; transition: color 0.3s; z-index: 10; }
+        .modal-close:hover { color: var(--primary-color); }
+        .modal-img-side { width: 100%; height: 100%; min-height: 400px; object-fit: cover; background-color: #fcfcfc; }
+        .modal-info-side { padding: 40px; display: flex; flex-direction: column; justify-content: center; }
+        .modal-brand { font-size: 0.82rem; text-transform: uppercase; color: #a1887f; letter-spacing: 1.5px; margin-bottom: 5px; font-weight: 600; }
+        .modal-title { font-family: var(--font-serif); font-size: 2rem; line-height: 1.2; color: var(--primary-color); margin-bottom: 15px; }
+        .modal-price { font-size: 1.4rem; font-weight: 700; color: #5d4037; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+        .modal-specs-box { background-color: #f9f5f0; padding: 15px; border-radius: 6px; font-size: 0.88rem; color: #555; margin-bottom: 25px; border-left: 3px solid var(--gold-color); }
+        .modal-specs-box p { margin-bottom: 6px; }
+        .modal-specs-box p:last-child { margin-bottom: 0; }
+        .modal-desc { font-size: 0.92rem; color: #666; line-height: 1.6; margin-bottom: 30px; }
+        .modal-action-btn { padding: 15px; background-color: var(--primary-color); color: var(--gold-color); border: none; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; border-radius: 6px; cursor: pointer; transition: all 0.3s; }
+        .modal-action-btn:hover { background-color: var(--secondary-color); color: #fff; }
+
+        /* --- FOOTER --- */
+        footer { background-color: #0f0a06; padding: 60px 20px 20px; border-top: 1px solid rgba(212, 175, 55, 0.1); font-size: 0.9rem; color: var(--text-muted); }
+        .footer-content { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 40px; text-align: left; }
+        .footer-column h5 { font-family: var(--font-serif); color: var(--gold-color); font-size: 1.2rem; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
+        .footer-column p { margin-bottom: 12px; display: flex; align-items: center; gap: 10px; font-size: 0.9rem; }
+        .footer-column i { color: var(--gold-color); width: 16px; }
+        .footer-column a { color: var(--text-muted); text-decoration: none; transition: color 0.3s; }
+        .footer-column a:hover { color: var(--gold-color); }
+        .warning-text { border: 1px solid #ff4d4d; color: #ff4d4d; padding: 10px; max-width: 700px; margin: 0 auto 30px; text-transform: uppercase; font-size: 0.72rem; text-align: center; letter-spacing: 1px; line-height: 1.4; }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px; text-align: center; font-size: 0.8rem; }
+
+        /* ======================================================== */
+        /* 📱 RESPONSIVE MEDIA QUERIES (TỐI ƯU MOBILE & TABLET)    */
+        /* ======================================================== --> */
+        @media (max-width: 992px) {
+            .hero-content h2 { font-size: 2.8rem; }
+            .modal-container { max-width: 700px; }
+        }
+
+        @media (max-width: 768px) {
+            /* Navbar Mobile */
+            .menu-toggle { display: block; }
+            .nav-links {
+                display: none; flex-direction: column; position: absolute;
+                top: 100%; left: 0; width: 100%; background-color: rgba(26, 17, 11, 0.98);
+                gap: 0; border-bottom: 1px solid rgba(212, 175, 55, 0.2); text-align: center;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            }
+            .nav-links.show { display: flex; }
+            .nav-links li { width: 100%; }
+            .nav-links a { display: block; padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 0.9rem; }
+            
+            /* Home Elements Mobile */
+            .hero-content h2 { font-size: 2.2rem; }
+            .hero-content p { font-size: 1rem; margin-bottom: 30px; }
+            .section-title { font-size: 2rem; }
+            .about p { font-size: 1rem; }
+            .entrance-card { width: 100%; padding: 30px 15px; }
+
+            /* Shop UI Mobile */
+            .shop-header h2 { font-size: 2rem; }
+            .product-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+
+            /* Modal Quick View Mobile */
+            .modal-container { grid-template-columns: 1fr; max-height: 85vh; overflow-y: auto; max-width: 90%; }
+            .modal-img-side { min-height: 220px; height: 220px; }
+            .modal-info-side { padding: 25px 20px; }
+            .modal-title { font-size: 1.6rem; }
+        }
+
+        @media (max-width: 576px) {
+            .logo h1 { font-size: 1.2rem; letter-spacing: 1px; }
+            .shop-header { flex-direction: column; align-items: flex-start; gap: 15px; margin-bottom: 25px; }
+            .filter-group { width: 100%; flex-direction: column; gap: 10px; }
+            .filter-select { width: 100%; padding: 12px; }
+            .product-grid { grid-template-columns: 1fr; }
+            .modal-container { max-width: 95%; }
+            footer { padding: 40px 15px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="age-verify-overlay">
+        <div class="age-box">
+            <i class="fa-solid fa-shield-halved"></i>
+            <h2>XÁC MINH ĐỘ TUỔI</h2>
+            <p>Trang web này cung cấp các sản phẩm cao cấp dành riêng cho người trưởng thành. Bạn phải từ 18 tuổi trở lên để tiếp tục.</p>
+            <div class="age-buttons">
+                <button class="btn-age btn-yes" onclick="verifyAge(true)">Tôi đã trên 18</button>
+                <button class="btn-age btn-no" onclick="verifyAge(false)">Tôi dưới 18</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="quick-view-overlay" onclick="closeQuickView(event)">
+        <div class="modal-container" onclick="event.stopPropagation()">
+            <span class="modal-close" onclick="closeQuickView(null)">&times;</span>
+            <img id="modal-img" src="" class="modal-img-side" alt="Product Image">
+            <div class="modal-info-side">
+                <div id="modal-brand" class="modal-brand">Thương Hiệu</div>
+                <h3 id="modal-title" class="modal-title">Tên Sản Phẩm</h3>
+                <div id="modal-price" class="modal-price">Giá tiền</div>
+                <div id="modal-specs" class="modal-specs-box"></div>
+                <p id="modal-desc" class="modal-desc">Mô tả chi tiết sản phẩm.</p>
+                <button class="modal-action-btn" onclick="alert('Tính năng đang được tích hợp cùng hệ thống thanh toán!')">Thêm Vào Giỏ Hàng</button>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div class="navbar">
+            <div class="logo" onclick="switchPage('home-page')">
+                <h1>HMB AGENCY</h1>
+            </div>
+            <div class="menu-toggle" onclick="toggleMobileMenu()">
+                <i class="fa-solid fa-bars" id="menu-icon"></i>
+            </div>
+            <ul class="nav-links" id="nav-links-container">
+                <li><a id="nav-home-page" class="nav-btn active" onclick="switchPage('home-page')">Trang Chủ</a></li>
+                <li><a id="nav-cigar-page" class="nav-btn" onclick="switchPage('cigar-page')">Cigar Thượng Hạng</a></li>
+                <li><a id="nav-acc-page" class="nav-btn" onclick="switchPage('acc-page')">Phụ Kiện</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <section id="home-page" class="webpage active-page">
+        <div class="hero">
+            <div class="hero-content">
+                <h2>Nơi Tôn Vinh<br>Hương Vị Thượng Lưu</h2>
+                <p>Tuyển chọn những dòng Cigar danh tiếng thế giới, bảo quản khắt khe trong không gian Tuyết Tùng chuẩn mực.</p>
+                <button onclick="switchPage('cigar-page')" class="btn-gold">Khám Phá Bộ Sưu Tập</button>
+            </div>
+        </div>
+
+        <div class="about">
+            <h3 class="section-title">Hành Trình Đam Mê</h3>
+            <p>Chúng tôi tin rằng việc thưởng thức một điếu Cigar không chỉ là sở thích, mà là một môn nghệ thuật sống đầy tinh tế. Mỗi sản phẩm tại HMB Agency đều được nâng niu tỉ mỉ trong phòng Humidor tiêu chuẩn độ ẩm tuyệt đối, giữ trọn vẹn hương vị tinh túy nguyên bản.</p>
+        </div>
+
+        <div class="entrances">
+            <div class="entrance-card">
+                <h3>Cigar Thượng Hạng</h3>
+                <p>Khám phá bộ sưu tập độc bản nhập khẩu chính hãng từ Cuba, Cộng hòa Dominica và Nicaragua.</p>
+                <button onclick="switchPage('cigar-page')" class="btn-gold" style="padding: 10px 25px; font-size: 0.75rem;">Xem Danh Mục</button>
+            </div>
+            <div class="entrance-card">
+                <h3>Phụ Kiện Đẳng Cấp</h3>
+                <p>Trang bị tủ giữ ẩm cao cấp, bật lửa khò, dao cắt độc quyền từ các thương hiệu lớn như Lubinski, S.T. Dupont.</p>
+                <button onclick="switchPage('acc-page')" class="btn-gold" style="padding: 10px 25px; font-size: 0.75rem;">Xem Phụ Kiện</button>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="cigar-page" class="webpage">
+        <div class="shop-wrapper">
+            <div class="shop-content">
+                <div class="shop-header">
+                    <h2>Cigar Thượng Hạng</h2>
+                    <div class="filter-group">
+                        <select id="filter-origin" class="filter-select" onchange="filterCigars()">
+                            <option value="all">Xuất xứ: Tất cả</option>
+                            <option value="cuba">Cuba</option>
+                            <option value="nicaragua">Nicaragua</option>
+                            <option value="dominica">Dominica</option>
+                        </select>
+                        <select id="filter-strength" class="filter-select" onchange="filterCigars()">
+                            <option value="all">Độ mạnh: Tất cả</option>
+                            <option value="mild">Nhẹ (Mild)</option>
+                            <option value="medium">Trung bình (Medium)</option>
+                            <option value="full">Đậm (Full Bodied)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="product-grid" id="cigar-grid">
+                    <div class="product-card" data-origin="cuba" data-strength="full" data-desc="Dòng sản phẩm đỉnh cao thuộc hàng siêu hiếm của thế giới Cigar. Sở hữu hương vị phức tạp biến chuyển kỳ diệu từ mật ong, gỗ tuyết tùng cổ kính đến các nốt cay nồng bùng nổ cuối điếu.">
+                        <span class="badge">Limited</span>
+                        <img src="https://images.unsplash.com/photo-1515549832467-8783363e19b6?q=80&w=500" class="product-img">
+                        <div class="product-brand">Cohiba - Cuba</div>
+                        <h4 class="product-name">Cohiba Behike 56</h4>
+                        <div class="product-specs">
+                            <span><i class="fa-solid fa-circle-dot"></i> Ring: 56</span>
+                            <span><i class="fa-solid fa-arrows-left-right"></i> Dài: 166mm</span>
+                        </div>
+                        <div class="product-price">Liên hệ báo giá</div>
+                    </div>
+
+                    <div class="product-card" data-origin="cuba" data-strength="medium" data-desc="Biểu tượng bất diệt của xưởng sản xuất Montecristo Cuba với hình dáng Torpedo độc đáo. Điếu mang tầng hương vị mượt mà của kem, cà phê rang mộc và cacao quyến rũ.">
+                        <span class="badge">Best Seller</span>
+                        <img src="https://images.unsplash.com/photo-1515549832467-8783363e19b6?q=80&w=500" class="product-img">
+                        <div class="product-brand">Montecristo - Cuba</div>
+                        <h4 class="product-name">Montecristo No.2</h4>
+                        <div class="product-specs">
+                            <span><i class="fa-solid fa-circle-dot"></i> Ring: 52</span>
+                            <span><i class="fa-solid fa-arrows-left-right"></i> Dài: 156mm</span>
+                        </div>
+                        <div class="product-price">14,500,000 ₫ / Hộp</div>
+                        <button class="btn-buy-now" onclick="openQuickView(this)">Mua ngay</button>
+                    </div>
+
+                    <div class="product-card" data-origin="cuba" data-strength="medium" data-desc="Dòng Cigar mang đậm tính lãng mạn nước Anh, cung cấp làn khói dày mượt thoảng hương hoa cỏ khô, vị ngọt nhẹ tự nhiên của caramel xen lẫn vị gỗ sồi già dặn.">
+                        <img src="https://images.unsplash.com/photo-1515549832467-8783363e19b6?q=80&w=500" class="product-img">
+                        <div class="product-brand">Romeo Y Julieta - Cuba</div>
+                        <h4 class="product-name">Wide Churchill</h4>
+                        <div class="product-specs">
+                            <span><i class="fa-solid fa-circle-dot"></i> Ring: 55</span>
+                            <span><i class="fa-solid fa-arrows-left-right"></i> Dài: 130mm</span>
+                        </div>
+                        <div class="product-price">11,200,000 ₫ / Hộp</div>
+                        <button class="btn-buy-now" onclick="openQuickView(this)">Mua ngay</button>
+                    </div>
+
+                    <div class="product-card" data-origin="cuba" data-strength="full" data-desc="Lựa chọn hoàn hảo cho quý ông tìm kiếm trải nghiệm mạnh mẽ, nam tính đậm đà đúng chất Cuba nguyên bản. Hương vị chủ đạo là tiêu đen thô, da thuộc đặc trưng và gỗ rừng ẩm.">
+                        <img src="https://images.unsplash.com/photo-1515549832467-8783363e19b6?q=80&w=500" class="product-img">
+                        <div class="product-brand">Partagas - Cuba</div>
+                        <h4 class="product-name">Partagas Serie D No.4</h4>
+                        <div class="product-specs">
+                            <span><i class="fa-solid fa-circle-dot"></i> Ring: 50</span>
+                            <span><i class="fa-solid fa-arrows-left-right"></i> Dài: 124mm</span>
+                        </div>
+                        <div class="product-price">12,800,000 ₫ / Hộp</div>
+                        <button class="btn-buy-now" onclick="openQuickView(this)">Mua ngay</button>
+                    </div>
+
+                    <div class="product-card" data-origin="cuba" data-strength="mild" data-desc="Nhẹ nhàng, thư thái và thanh tao là những gì điếu Epicure No.2 mang lại. Thích hợp tuyệt đối cho những buổi sáng thưởng thức cùng một ly Latte sữa béo ngậy.">
+                        <img src="https://images.unsplash.com/photo-1515549832467-8783363e19b6?q=80&w=500" class="product-img">
+                        <div class="product-brand">Hoyo de Monterrey - Cuba</div>
+                        <h4 class="product-name">Epicure No.2</h4>
+                        <div class="product-specs">
+                            <span><i class="fa-solid fa-circle-dot"></i> Ring: 50</span>
+                            <span><i class="fa-solid fa-arrows-left-right"></i> Dài: 124mm</span>
+                        </div>
+                        <div class="product-price">10,900,000 ₫ / Hộp</div>
+                        <button class="btn-buy-now" onclick="openQuickView(this)">Mua ngay</button>
+                    </div>
+
+                    <div class="product-card" data-origin="nicaragua" data-strength="full" data-desc="Tác phẩm nghệ thuật đạt danh hiệu Top 1 thế giới danh giá của Cigar Aficionado. Cấu trúc lá ép vuông Box-Pressed mang lại hơi hút mượt cùng vị sô-cô-la đen nguyên chất hảo hạng.">
+                        <span class="badge">97 Điểm</span>
+                        <img src="https://images.unsplash.com/photo-1515549832467-8783363e19b6?q=80&w=500" class="product-img">
+                        <div class="product-brand">Oliva - Nicaragua</div>
+                        <h4 class="product-name">Oliva Serie V Melanio</h4>
+                        <div class="product-specs">
+                            <span><i class="fa-solid fa-circle-dot"></i> Ring: 52</span>
+                            <span><i class="fa-solid fa-arrows-left-right"></i> Dài: 165mm</span>
+                        </div>
+                        <div class="product-price">15,600,000 ₫ / Hộp</div>
+                        <button class="btn-buy-now" onclick="openQuickView(this)">Mua ngay</button>
+                    </div>
+
+                    <div class="product-card" data-origin="nicaragua" data-strength="full" data-desc="Tuyệt tác ủ lá lâu năm thủ công của gia tộc Padron. Sự kết hợp tinh tế sâu sắc giữa các tầng vị quả khô, hạnh nhân nướng thơm phức lôi cuốn khó lòng cưỡng lại.">
+                        <img src="https://images.unsplash.com/photo-1515549832467-8783363e19b6?q=80&w=500" class="product-img">
+                        <div class="product-brand">Padron - Nicaragua</div>
+                        <h4 class="product-name">Padron 1964 Anniversary</h4>
+                        <div class="product-specs">
+                            <span><i class="fa-solid fa-circle-dot"></i> Ring: 52</span>
+                            <span><i class="fa-solid fa-arrows-left-right"></i> Dài: 152mm</span>
+                        </div>
+                        <div class="product-price">19,500,000 ₫ / Hộp</div>
+                        <button class="btn-buy-now" onclick="openQuickView(this)">Mua ngay</button>
+                    </div>
+
+                    <div class="product-card" data-origin="dominica" data-strength="medium" data-desc="Điếu Cigar quý tộc làm say đắm lòng người bởi lá wrapper được ủ đặc biệt trong thùng rượu Single Malt Scotch Whisky cổ điển, lan tỏa hương khói trầm vô cùng quyền quý.">
+                        <img src="https://images.unsplash.com/photo-1515549832467-8783363e19b6?q=80&w=500" class="product-img">
+                        <div class="product-brand">Davidoff - Dominica</div>
+                        <h4 class="product-name">Winston Churchill Late Hour</h4>
+                        <div class="product-specs">
+                            <span><i class="fa-solid fa-circle-dot"></i> Ring: 54</span>
+                            <span><i class="fa-solid fa-arrows-left-right"></i> Dài: 178mm</span>
+                        </div>
+                        <div class="product-price">18,200,000 ₫ / Hộp</div>
+                        <button class="btn-buy-now" onclick="openQuickView(this)">Mua ngay</button>
+                    </div>
+
+                    <div class="product-card" data-origin="dominica" data-strength="full" data-desc="Một trong những dòng lá wrapper nội địa Dominica thành công nhất lịch sử ngành. Hương vị đậm đà độc tôn tinh túy, thách thức mọi giới hạn của người đam mê khói thuốc lâu năm.">
+                        <span class="badge">Hiếm</span>
+                        <img src="https://images.unsplash.com/photo-1515549832467-8783363e19b6?q=80&w=500" class="product-img">
+                        <div class="product-brand">Arturo Fuente - Dominica</div>
+                        <h4 class="product-name">Fuente Fuente OpusX</h4>
+                        <div class="product-specs">
+                            <span><i class="fa-solid fa-circle-dot"></i> Ring: 48</span>
+                            <span><i class="fa-solid fa-arrows-left-right"></i> Dài: 160mm</span>
+                        </div>
+                        <div class="product-price">Liên hệ báo giá</div>
+                    </div>
+
+                    <div class="product-card" data-origin="dominica" data-strength="mild" data-desc="Điếu Cigar quốc dân êm dịu vượt thời gian, lớp lá quấn Connecticut mượt như lụa đem đến làn khói nhẹ tinh khôi phảng phất hương vị thảo mộc thiên nhiên hoang dã.">
+                        <img src="https://images.unsplash.com/photo-1515549832467-8783363e19b6?q=80&w=500" class="product-img">
+                        <div class="product-brand">Macanudo - Dominica</div>
+                        <h4 class="product-name">Macanudo Cafe Hyde Park</h4>
+                        <div class="product-specs">
+                            <span><i class="fa-solid fa-circle-dot"></i> Ring: 49</span>
+                            <span><i class="fa-solid fa-arrows-left-right"></i> Dài: 140mm</span>
+                        </div>
+                        <div class="product-price">7,900,000 ₫ / Hộp</div>
+                        <button class="btn-buy-now" onclick="openQuickView(this)">Mua ngay</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="acc-page" class="webpage">
+        <div class="shop-wrapper">
+            <div class="shop-content">
+                <div class="shop-header">
+                    <h2>Phụ Kiện Đẳng Cấp</h2>
+                    <div class="filter-group">
+                        <select id="filter-accessory" class="filter-select" onchange="filterAccessories()">
+                            <option value="all">Danh mục: Tất cả</option>
+                            <option value="humidor">Tủ & Hộp giữ ẩm</option>
+                            <option value="lighter">Bật lửa khò</option>
+                            <option value="cutter">Dao cắt Cigar</option>
+                            <option value="other">Gạt tàn & Bao da</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="product-grid" id="acc-grid">
+                    <div class="product-card" data-category="humidor" data-desc="Tủ giữ ẩm tích hợp chip xử lý cảm biến độ ẩm thông minh thông minh, lót hoàn toàn từ 100% gỗ tuyết tùng Tây Ban Nha hỗ trợ quá trình lên men cigar tự nhiên hoàn hảo nhất.">
+                        <span class="badge">Bán Chạy</span>
+                        <img src="https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?q=80&w=500" class="product-img">
+                        <div class="product-brand">Lubinski</div>
+                        <h4 class="product-name">Tủ Gỗ Tuyết Tùng Điện Tử RA-998</h4>
+                        <div class="product-specs">Sức chứa: ~800 điếu | Kiểm soát ẩm tự động</div>
+                        <div class="product-price">25,000,000 ₫</div>
+                        <button class="btn-buy-now" onclick="openQuickView(this)">Mua ngay</button>
+                    </div>
+
+                    <div class="product-card" data-category="humidor" data-desc="Thiết kế hộp gỗ để bàn mini sang trọng tinh tế, kèm theo ẩm kế đo cơ học chính xác mặt trước, bảo vệ giữ ẩm tuyệt đối cho những điếu cigar yêu thích của bạn khi ở nhà.">
+                        <img src="https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?q=80&w=500" class="product-img">
+                        <div class="product-brand">Cohiba Accessories</div>
+                        <h4 class="product-name">Hộp Giữ Ẩm Vân Gỗ Tuyết Tùng Tự Nhiên</h4>
+                        <div class="product-specs">Sức chứa: 50 điếu | Đồng hồ đo ẩm kế</div>
+                        <div class="product-price">4,500,000 ₫</div>
+                        <button class="btn-buy-now" onclick="openQuickView(this)">Mua ngay</button>
+                    </div>
+
+                    <div class="product-card" data-category="lighter" data-desc="Ngọn lửa khò 3 tia xanh tập trung mạnh mẽ siêu nhiệt, tích hợp lưỡi đục kim loại sắc bén ẩn dưới đáy bật lửa tiện ích cơ động khi mang ra ngoài trời gió lớn.">
+                        <img src="https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?q=80&w=500" class="product-img">
+                        <div class="product-brand">Xikar</div>
+                        <h4 class="product-name">Bật Lửa Khò 3 Tia Xikar Tactical</h4>
+                        <div class="product-specs">Nhiên liệu: Gas | Kháng gió | Tích hợp đục</div>
+                        <div class="product-price">3,800,000 ₫</div>
+                        <button class="btn-buy-now" onclick="openQuickView(this)">Mua ngay</button>
+                    </div>
+
+                    <div class="product-card" data-category="lighter" data-desc="Đỉnh cao xa xỉ của thế giới phụ kiện thượng lưu. Toàn thân đúc đồng mạ vàng 24k dập vân sắc sảo, phát ra âm thanh 'Cling' vang vọng ngân dài mê hoặc mỗi khi mở nắp đánh lửa.">
+                        <span class="badge">Luxury</span>
+                        <img src="https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?q=80&w=500" class="product-img">
+                        <div class="product-brand">S.T. Dupont</div>
+                        <h4 class="product-name">Bật Lửa Khò Khảm Vàng Ligne 2</h4>
+                        <div class="product-specs">Chất liệu: Đồng mạ vàng 24K | Tiếng "Cling" đặc trưng</div>
+                        <div class="product-price">32,000,000 ₫</div>
+                        <button class="btn-buy-now" onclick="openQuickView(this)">Mua ngay</button>
+                    </div>
+
+                    <div class="product-card" data-category="cutter" data-desc="Lưỡi đôi cắt hình chữ V sâu hoàn mỹ, giúp tập trung tối đa luồng khói đậm đà mà không lo làm rách cấu trúc màng bọc wrapper của đầu điếu thuốc lá cao cấp.">
+                        <img src="https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?q=80&w=500" class="product-img">
+                        <div class="product-brand">S.T. Dupont</div>
+                        <h4 class="product-name">Dao Cắt Lưỡi Kép V-Cut Chrome</h4>
+                        <div class="product-specs">Lưỡi cắt thép phẫu thuật siêu bén | Kiểu V-Cut</div>
+                        <div class="product-price">6,500,000 ₫</div>
+                        <button class="btn-buy-now" onclick="openQuickView(this)">Mua ngay</button>
+                    </div>
+
+                    <div class="product-card" data-category="cutter" data-desc="Kéo cắt độc bản thiết kế tay cầm bọc gỗ quý, lưỡi thép carbon tôi cứng sắc cạnh đảm bảo vát phẳng tuyệt đối mọi size ring cigar lớn nhỏ chỉ trong một lần bấm dứt khoát.">
+                        <img src="https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?q=80&w=500" class="product-img">
+                        <div class="product-brand">Xikar</div>
+                        <h4 class="product-name">Kéo Cắt Cigar Xikar Xi3 Gỗ Đàn Hương</h4>
+                        <div class="product-specs">Tay cầm bọc gỗ tự nhiên | Cơ chế bấm lò xo</div>
+                        <div class="product-price">5,200,000 ₫</div>
+                        <button class="btn-buy-now" onclick="openQuickView(this)">Mua ngay</button>
+                    </div>
+
+                    <div class="product-card" data-category="other" data-desc="Gạt tàn gốm cao cấp sơn mài thủ công sắc màu thương hiệu Cohiba vàng đen cổ điển. Bố trí 4 máng đỡ rộng rãi phù hợp trang hoàng trong các phòng Cigar Lounge xa hoa biệt lập.">
+                        <img src="https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?q=80&w=500" class="product-img">
+                        <div class="product-brand">Cohiba Gift</div>
+                        <h4 class="product-name">Gạt Tàn Cigar Gốm Sứ Khảm Vàng 4 Máng</h4>
+                        <div class="product-specs">Chất liệu: Gốm sứ cao cấp | Sơn mài chịu nhiệt</div>
+                        <div class="product-price">2,900,000 ₫</div>
+                        <button class="btn-buy-now" onclick="openQuickView(this)">Mua ngay</button>
+                    </div>
+
+                    <div class="product-card" data-category="other" data-desc="Ống đựng da thật khâu viền tay tỉ mỉ bền bỉ, lót ống tuyết tùng kín khí lưu hương, tiện dụng bảo vệ 3 điếu cigar an toàn trong suốt các hành trình công tác xa của quý chủ tịch.">
+                        <img src="https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?q=80&w=500" class="product-img">
+                        <div class="product-brand">Lubinski</div>
+                        <h4 class="product-name">Bao Da Đựng 3 Điếu Cigar Travel Case</h4>
+                        <div class="product-specs">Da bò thật dập vân cá sấu | Lót gỗ tuyết tùng</div>
+                        <div class="product-price">1,850,000 ₫</div>
+                        <button class="btn-buy-now" onclick="openQuickView(this)">Mua ngay</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h5>HMB Agency</h5>
+                <p>Mang sứ mệnh kiến tạo những giá trị trải nghiệm đỉnh cao cho giới tinh hoa đam mê nghệ thuật Cigar thượng lưu.</p>
+            </div>
+            <div class="footer-column">
+                <h5>Thông Tin Liên Hệ</h5>
+                <p><i class="fa-solid fa-phone"></i> Hotline: <a href="tel:0855555140" style="color: inherit;">0855 555 140</a></p>
+                <p><i class="fa-solid fa-envelope"></i> Email: <a href="mailto:hmb.agency.group@gmail.com" style="color: inherit;">hmb.agency.group@gmail.com</a></p>
+            </div>
+            <div class="footer-column">
+                <h5>Đặc Quyền Khách Hàng</h5>
+                <p><i class="fa-solid fa-circle-check"></i> Sản phẩm chính hãng 100%</p>
+                <p><i class="fa-solid fa-droplet"></i> Phòng ủ Humidor tiêu chuẩn châu Âu</p>
+            </div>
+        </div>
+        <div class="warning-text">Cảnh báo: Hút thuốc lá có hại cho sức khỏe. Sản phẩm không dành cho người dưới 18 tuổi.</div>
+        <div class="footer-bottom">
+            &copy; 2026 HMB Agency. Toàn bộ bản quyền được bảo lưu.
+        </div>
+    </footer>
+
+    <script>
+        // --- 1. ĐÓNG/MỞ MENU MOBILE (HAMBURGER) ---
+        function toggleMobileMenu() {
+            const navLinks = document.getElementById('nav-links-container');
+            const menuIcon = document.getElementById('menu-icon');
+            
+            navLinks.classList.toggle('show');
+            
+            // Xoay chuyển icon tự động mượt mà giữa nút Bar và nút Đóng (X)
+            if (navLinks.classList.contains('show')) {
+                menuIcon.classList.replace('fa-bars', 'fa-xmark');
+            } else {
+                menuIcon.classList.replace('fa-xmark', 'fa-bars');
+            }
+        }
+
+        // --- 2. HÀM MỞ POPUP CHI TIẾT SẢN PHẨM ---
+        function openQuickView(buttonElement) {
+            const card = buttonElement.closest('.product-card');
+            
+            const imgUrl = card.querySelector('.product-img').src;
+            const brand = card.querySelector('.product-brand').innerText;
+            const title = card.querySelector('.product-name').innerText;
+            const price = card.querySelector('.product-price').innerText;
+            const specsHtml = card.querySelector('.product-specs').innerHTML;
+            const desc = card.getAttribute('data-desc');
+
+            document.getElementById('modal-img').src = imgUrl;
+            document.getElementById('modal-brand').innerText = brand;
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-price').innerText = price;
+            document.getElementById('modal-specs').innerHTML = specsHtml;
+            document.getElementById('modal-desc').innerText = desc;
+
+            document.getElementById('quick-view-overlay').style.display = 'flex';
+            document.body.style.overflowY = 'hidden';
+        }
+
+        // --- 3. HÀM ĐÓNG POPUP CHI TIẾT ---
+        function closeQuickView(event) {
+            document.getElementById('quick-view-overlay').style.display = 'none';
+            if (localStorage.getItem('age_verified') === 'true') {
+                document.body.style.overflowY = 'auto';
+            }
+        }
+
+        // --- 4. HÀM CHUYỂN TRANG CHUYÊN BIỆT (TAB ROUTING) ---
+        function switchPage(pageId) {
+            if (localStorage.getItem('age_verified') !== 'true') {
+                alert("Vui lòng xác minh độ tuổi trước.");
+                return;
+            }
+
+            // Đóng nhanh menu mobile khi đã chọn trang xong (nếu đang ở giao diện Mobile)
+            const navLinks = document.getElementById('nav-links-container');
+            const menuIcon = document.getElementById('menu-icon');
+            if (navLinks.classList.contains('show')) {
+                navLinks.classList.remove('show');
+                menuIcon.classList.replace('fa-xmark', 'fa-bars');
+            }
+
+            const pages = document.querySelectorAll('.webpage');
+            pages.forEach(page => page.classList.remove('active-page'));
+
+            const navButtons = document.querySelectorAll('.nav-btn');
+            navButtons.forEach(btn => btn.classList.remove('active'));
+
+            document.getElementById(pageId).classList.add('active-page');
+
+            if(pageId === 'home-page') document.getElementById('nav-home-page').classList.add('active');
+            if(pageId === 'cigar-page') document.getElementById('nav-cigar-page').classList.add('active');
+            if(pageId === 'acc-page') document.getElementById('nav-acc-page').classList.add('active');
+
+            window.scrollTo(0, 0);
+        }
+
+        // --- 5. HÀM SỬ LÝ LỌC PHỤ KIỆN ---
+        function filterAccessories() {
+            const selectedCategory = document.getElementById('filter-accessory').value;
+            const productCards = document.querySelectorAll('#acc-grid .product-card');
+
+            productCards.forEach(card => {
+                const cardCategory = card.getAttribute('data-category');
+                const matchCategory = (selectedCategory === 'all' || cardCategory === selectedCategory);
+
+                if (matchCategory) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // --- 6. HÀM SỬ LÝ LỌC CIGAR ---
+        function filterCigars() {
+            const selectedOrigin = document.getElementById('filter-origin').value;
+            const selectedStrength = document.getElementById('filter-strength').value;
+            const productCards = document.querySelectorAll('#cigar-grid .product-card');
+
+            productCards.forEach(card => {
+                const cardOrigin = card.getAttribute('data-origin');
+                const cardStrength = card.getAttribute('data-strength');
+
+                const matchOrigin = (selectedOrigin === 'all' || cardOrigin === selectedOrigin);
+                const matchStrength = (selectedStrength === 'all' || cardStrength === selectedStrength);
+
+                if (matchOrigin && matchStrength) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // --- 7. HÀM XÁC MINH TUỔI TÁC ---
+        function verifyAge(isOfAge) {
+            const overlay = document.getElementById('age-verify-overlay');
+            if (isOfAge) {
+                overlay.style.display = 'none';
+                document.body.style.overflowY = 'auto'; 
+                localStorage.setItem('age_verified', 'true'); 
+            } else {
+                window.location.href = "https://www.google.com";
+            }
+        }
+
+        // --- 8. KIỂM TRA CHẠY BAN ĐẦU ---
+        window.onload = function() {
+            if (localStorage.getItem('age_verified') === 'true') {
+                document.getElementById('age-verify-overlay').style.display = 'none';
+                document.body.style.overflowY = 'auto';
+            } else {
+                document.body.style.overflowY = 'hidden'; 
+            }
+        };
+    </script>
+</body>
+</html>
