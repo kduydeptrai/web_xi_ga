@@ -8,15 +8,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* --- THEME & RESET STYLE --- */
         :root {
-            --primary-color: #1a110b; /* Nâu trầm Cigar */
-            --secondary-color: #2c1d11; /* Nâu sáng gỗ tuyết tùng */
-            --gold-color: #d4af37; /* Vàng ánh kim */
+            --primary-color: #1a110b;
+            --secondary-color: #2c1d11;
+            --gold-color: #d4af37;
             --gold-hover: #f3e5ab;
             --text-light: #f5f5f5;
             --text-muted: #b5a496;
-            --bg-light: #faf6f0; /* Kem nhạt cho trang sản phẩm */
+            --bg-light: #faf6f0;
             --font-serif: 'Playfair Display', Georgia, serif;
             --font-sans: 'Montserrat', sans-serif;
         }
@@ -24,7 +23,6 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: var(--font-sans); background-color: var(--primary-color); color: var(--text-light); line-height: 1.6; }
 
-        /* --- POPUP XÁC MINH ĐỘ TUỔI (18+) --- */
         #age-verify-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(10, 6, 4, 0.98); z-index: 9999;
@@ -44,24 +42,47 @@
         .btn-no { background-color: transparent; color: var(--text-muted); border: 1px solid var(--text-muted); }
         .btn-no:hover { color: #ff4d4d; border-color: #ff4d4d; }
 
-        /* --- HEADER & NAVIGATION --- */
         header { background-color: rgba(26, 17, 11, 0.95); position: fixed; top: 0; width: 100%; z-index: 100; border-bottom: 1px solid rgba(212, 175, 55, 0.2); }
         .navbar { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 20px; position: relative; }
         .logo h1 { font-family: var(--font-serif); color: var(--gold-color); font-size: 1.4rem; letter-spacing: 2px; cursor: pointer; }
         
-        /* Menu Toggle (Hamburger Icon) */
         .menu-toggle { display: none; font-size: 1.5rem; color: var(--gold-color); cursor: pointer; transition: transform 0.3s; }
         
         .nav-links { display: flex; list-style: none; gap: 30px; }
         .nav-links a { color: var(--text-light); text-decoration: none; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: color 0.3s; }
         .nav-links a:hover, .nav-links a.active { color: var(--gold-color); }
 
-        /* --- CƠ CHẾ CHUYỂN TRANG --- */
         .webpage { display: none; padding-top: 70px; animation: fadeIn 0.4s ease-in-out; }
         .webpage.active-page { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* --- [PAGE 1]: TRANG CHỦ STYLES --- */
+        .btn-gold { 
+            display: inline-block; 
+            padding: 14px 38px; 
+            background-color: transparent; 
+            color: var(--gold-color); 
+            border: 1px solid var(--gold-color); 
+            text-decoration: none; 
+            text-transform: uppercase; 
+            letter-spacing: 2px; 
+            font-size: 0.85rem; 
+            font-weight: 600; 
+            cursor: pointer; 
+            border-radius: 4px;
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1); 
+        }
+        .btn-gold:hover { 
+            background-color: var(--gold-color); 
+            color: var(--primary-color); 
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.35); 
+            transform: translateY(-3px); 
+        }
+        .btn-gold.btn-sm {
+            padding: 10px 26px;
+            font-size: 0.75rem;
+            letter-spacing: 1.5px;
+        }
+
         .hero { height: calc(100vh - 70px); background: linear-gradient(rgba(26, 17, 11, 0.6), rgba(26, 17, 11, 0.9)), url('https://images.unsplash.com/photo-1541532713592-79a0317b6b77?q=80&w=1920') center center/cover; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 20px; }
         .hero-content h2 { font-family: var(--font-serif); font-size: 3.5rem; color: var(--gold-color); margin-bottom: 20px; font-style: italic; line-height: 1.2; }
         .hero-content p { font-size: 1.2rem; max-width: 600px; margin: 0 auto 40px; color: var(--text-light); font-weight: 300; }
@@ -76,7 +97,6 @@
         .entrance-card h3 { font-family: var(--font-serif); font-size: 1.8rem; color: var(--gold-color); margin-bottom: 15px; }
         .entrance-card p { color: var(--text-muted); margin-bottom: 30px; font-size: 0.95rem; }
 
-        /* --- [PAGE 2 & 3]: SHOP STYLES --- */
         .shop-wrapper { background-color: var(--bg-light); color: var(--primary-color); padding: 50px 20px; min-height: 80vh; }
         .shop-content { max-width: 1200px; margin: 0 auto; }
         .shop-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; border-bottom: 2px solid #e2dacd; padding-bottom: 20px; flex-wrap: wrap; gap: 20px; }
@@ -113,7 +133,6 @@
         }
         .btn-buy-now:hover { background-color: var(--gold-color); color: var(--primary-color); box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2); }
 
-        /* --- 🛍️ POPUP CHI TIẾT SẢN PHẨM (QUICK VIEW) --- */
         #quick-view-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(10, 6, 4, 0.85); z-index: 2000;
@@ -140,7 +159,6 @@
         .modal-action-btn { padding: 15px; background-color: var(--primary-color); color: var(--gold-color); border: none; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; border-radius: 6px; cursor: pointer; transition: all 0.3s; }
         .modal-action-btn:hover { background-color: var(--secondary-color); color: #fff; }
 
-        /* --- FOOTER --- */
         footer { background-color: #0f0a06; padding: 60px 20px 20px; border-top: 1px solid rgba(212, 175, 55, 0.1); font-size: 0.9rem; color: var(--text-muted); }
         .footer-content { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 40px; text-align: left; }
         .footer-column h5 { font-family: var(--font-serif); color: var(--gold-color); font-size: 1.2rem; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
@@ -151,16 +169,12 @@
         .warning-text { border: 1px solid #ff4d4d; color: #ff4d4d; padding: 10px; max-width: 700px; margin: 0 auto 30px; text-transform: uppercase; font-size: 0.72rem; text-align: center; letter-spacing: 1px; line-height: 1.4; }
         .footer-bottom { border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px; text-align: center; font-size: 0.8rem; }
 
-        /* ======================================================== */
-        /* 📱 RESPONSIVE MEDIA QUERIES (TỐI ƯU MOBILE & TABLET)    */
-        /* ======================================================== --> */
         @media (max-width: 992px) {
             .hero-content h2 { font-size: 2.8rem; }
             .modal-container { max-width: 700px; }
         }
 
         @media (max-width: 768px) {
-            /* Navbar Mobile */
             .menu-toggle { display: block; }
             .nav-links {
                 display: none; flex-direction: column; position: absolute;
@@ -172,18 +186,15 @@
             .nav-links li { width: 100%; }
             .nav-links a { display: block; padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 0.9rem; }
             
-            /* Home Elements Mobile */
             .hero-content h2 { font-size: 2.2rem; }
-            .hero-content p { font-size: 1rem; margin-bottom: 30px; }
+            .hero-content p { font-size: 1.2rem; margin-bottom: 30px; }
             .section-title { font-size: 2rem; }
             .about p { font-size: 1rem; }
             .entrance-card { width: 100%; padding: 30px 15px; }
 
-            /* Shop UI Mobile */
             .shop-header h2 { font-size: 2rem; }
             .product-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
 
-            /* Modal Quick View Mobile */
             .modal-container { grid-template-columns: 1fr; max-height: 85vh; overflow-y: auto; max-width: 90%; }
             .modal-img-side { min-height: 220px; height: 220px; }
             .modal-info-side { padding: 25px 20px; }
@@ -220,11 +231,11 @@
             <span class="modal-close" onclick="closeQuickView(null)">&times;</span>
             <img id="modal-img" src="" class="modal-img-side" alt="Product Image">
             <div class="modal-info-side">
-                <div id="modal-brand" class="modal-brand">Thương Hiệu</div>
-                <h3 id="modal-title" class="modal-title">Tên Sản Phẩm</h3>
-                <div id="modal-price" class="modal-price">Giá tiền</div>
+                <div id="modal-brand" class="modal-brand"></div>
+                <h3 id="modal-title" class="modal-title"></h3>
+                <div id="modal-price" class="modal-price"></div>
                 <div id="modal-specs" class="modal-specs-box"></div>
-                <p id="modal-desc" class="modal-desc">Mô tả chi tiết sản phẩm.</p>
+                <p id="modal-desc" class="modal-desc"></p>
                 <button class="modal-action-btn" onclick="alert('Tính năng đang được tích hợp cùng hệ thống thanh toán!')">Thêm Vào Giỏ Hàng</button>
             </div>
         </div>
@@ -264,16 +275,15 @@
             <div class="entrance-card">
                 <h3>Cigar Thượng Hạng</h3>
                 <p>Khám phá bộ sưu tập độc bản nhập khẩu chính hãng từ Cuba, Cộng hòa Dominica và Nicaragua.</p>
-                <button onclick="switchPage('cigar-page')" class="btn-gold" style="padding: 10px 25px; font-size: 0.75rem;">Xem Danh Mục</button>
+                <button onclick="switchPage('cigar-page')" class="btn-gold btn-sm">Xem Danh Mục</button>
             </div>
             <div class="entrance-card">
                 <h3>Phụ Kiện Đẳng Cấp</h3>
                 <p>Trang bị tủ giữ ẩm cao cấp, bật lửa khò, dao cắt độc quyền từ các thương hiệu lớn như Lubinski, S.T. Dupont.</p>
-                <button onclick="switchPage('acc-page')" class="btn-gold" style="padding: 10px 25px; font-size: 0.75rem;">Xem Phụ Kiện</button>
+                <button onclick="switchPage('acc-page')" class="btn-gold btn-sm">Xem Phụ Kiện</button>
             </div>
         </div>
     </section>
-
 
     <section id="cigar-page" class="webpage">
         <div class="shop-wrapper">
@@ -423,7 +433,6 @@
         </div>
     </section>
 
-
     <section id="acc-page" class="webpage">
         <div class="shop-wrapper">
             <div class="shop-content">
@@ -543,14 +552,10 @@
     </footer>
 
     <script>
-        // --- 1. ĐÓNG/MỞ MENU MOBILE (HAMBURGER) ---
         function toggleMobileMenu() {
             const navLinks = document.getElementById('nav-links-container');
             const menuIcon = document.getElementById('menu-icon');
-            
             navLinks.classList.toggle('show');
-            
-            // Xoay chuyển icon tự động mượt mà giữa nút Bar và nút Đóng (X)
             if (navLinks.classList.contains('show')) {
                 menuIcon.classList.replace('fa-bars', 'fa-xmark');
             } else {
@@ -558,10 +563,8 @@
             }
         }
 
-        // --- 2. HÀM MỞ POPUP CHI TIẾT SẢN PHẨM ---
         function openQuickView(buttonElement) {
             const card = buttonElement.closest('.product-card');
-            
             const imgUrl = card.querySelector('.product-img').src;
             const brand = card.querySelector('.product-brand').innerText;
             const title = card.querySelector('.product-name').innerText;
@@ -580,7 +583,6 @@
             document.body.style.overflowY = 'hidden';
         }
 
-        // --- 3. HÀM ĐÓNG POPUP CHI TIẾT ---
         function closeQuickView(event) {
             document.getElementById('quick-view-overlay').style.display = 'none';
             if (localStorage.getItem('age_verified') === 'true') {
@@ -588,14 +590,12 @@
             }
         }
 
-        // --- 4. HÀM CHUYỂN TRANG CHUYÊN BIỆT (TAB ROUTING) ---
         function switchPage(pageId) {
             if (localStorage.getItem('age_verified') !== 'true') {
                 alert("Vui lòng xác minh độ tuổi trước.");
                 return;
             }
 
-            // Đóng nhanh menu mobile khi đã chọn trang xong (nếu đang ở giao diện Mobile)
             const navLinks = document.getElementById('nav-links-container');
             const menuIcon = document.getElementById('menu-icon');
             if (navLinks.classList.contains('show')) {
@@ -618,7 +618,6 @@
             window.scrollTo(0, 0);
         }
 
-        // --- 5. HÀM SỬ LÝ LỌC PHỤ KIỆN ---
         function filterAccessories() {
             const selectedCategory = document.getElementById('filter-accessory').value;
             const productCards = document.querySelectorAll('#acc-grid .product-card');
@@ -635,7 +634,6 @@
             });
         }
 
-        // --- 6. HÀM SỬ LÝ LỌC CIGAR ---
         function filterCigars() {
             const selectedOrigin = document.getElementById('filter-origin').value;
             const selectedStrength = document.getElementById('filter-strength').value;
@@ -656,7 +654,6 @@
             });
         }
 
-        // --- 7. HÀM XÁC MINH TUỔI TÁC ---
         function verifyAge(isOfAge) {
             const overlay = document.getElementById('age-verify-overlay');
             if (isOfAge) {
@@ -668,7 +665,6 @@
             }
         }
 
-        // --- 8. KIỂM TRA CHẠY BAN ĐẦU ---
         window.onload = function() {
             if (localStorage.getItem('age_verified') === 'true') {
                 document.getElementById('age-verify-overlay').style.display = 'none';
