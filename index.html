@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HMB Agency - Thế Giới Cigar Thượng Lưu</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -16,41 +16,24 @@
             --text-light: #f5f5f5;
             --text-muted: #b5a496;
             --bg-light: #faf6f0;
+            --light-brown: #785944;
+            --light-brown-border: #916b54;
             --font-serif: 'Playfair Display', Georgia, serif;
             --font-sans: 'Montserrat', sans-serif;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: var(--font-sans); background-color: var(--primary-color); color: var(--text-light); line-height: 1.6; }
+        body { font-family: var(--font-sans); background-color: var(--bg-light); color: var(--primary-color); line-height: 1.6; }
 
-        #age-verify-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(10, 6, 4, 0.98); z-index: 9999;
-            display: flex; justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(10px);
-        }
-        .age-box {
-            background-color: var(--secondary-color); border: 2px solid var(--gold-color);
-            padding: 40px 20px; max-width: 500px; width: 100%; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.7); border-radius: 4px;
-        }
-        .age-box i { font-size: 3rem; color: var(--gold-color); margin-bottom: 20px; }
-        .age-box h2 { font-family: var(--font-serif); font-size: 1.8rem; color: var(--gold-color); margin-bottom: 15px; }
-        .age-box p { color: var(--text-muted); margin-bottom: 30px; font-size: 0.95rem; }
-        .age-buttons { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
-        .btn-age { padding: 12px 30px; border: none; cursor: pointer; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s; width: 100%; max-width: 180px; }
-        .btn-yes { background-color: var(--gold-color); color: var(--primary-color); }
-        .btn-yes:hover { background-color: var(--gold-hover); transform: translateY(-2px); }
-        .btn-no { background-color: transparent; color: var(--text-muted); border: 1px solid var(--text-muted); }
-        .btn-no:hover { color: #ff4d4d; border-color: #ff4d4d; }
-
-        header { background-color: rgba(26, 17, 11, 0.95); position: fixed; top: 0; width: 100%; z-index: 100; border-bottom: 1px solid rgba(212, 175, 55, 0.2); }
+        header { background-color: var(--light-brown); position: fixed; top: 0; width: 100%; z-index: 100; border-bottom: 1px solid var(--light-brown-border); box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
         .navbar { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 20px; position: relative; }
-        .logo h1 { font-family: var(--font-serif); color: var(--gold-color); font-size: 1.4rem; letter-spacing: 2px; cursor: pointer; }
+        .logo h1 { font-family: var(--font-serif); color: var(--gold-color); font-size: 1.5rem; letter-spacing: 2px; cursor: pointer; font-weight: 700; }
         
-        .menu-toggle { display: none; font-size: 1.5rem; color: var(--gold-color); cursor: pointer; transition: transform 0.3s; }
+        .menu-toggle { display: none; font-size: 1.5rem; color: #ffffff; cursor: pointer; transition: transform 0.3s; }
         
         .nav-links { display: flex; list-style: none; gap: 30px; }
-        .nav-links a { color: var(--text-light); text-decoration: none; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: color 0.3s; }
-        .nav-links a:hover, .nav-links a.active { color: var(--gold-color); }
+        .nav-links a { color: #ffffff; text-decoration: none; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; font-weight: 600; transition: color 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--gold-hover); }
 
         .webpage { display: none; padding-top: 70px; animation: fadeIn 0.4s ease-in-out; }
         .webpage.active-page { display: block; }
@@ -83,19 +66,31 @@
             letter-spacing: 1.5px;
         }
 
-        .hero { height: calc(100vh - 70px); background: linear-gradient(rgba(26, 17, 11, 0.6), rgba(26, 17, 11, 0.9)), url('https://images.unsplash.com/photo-1541532713592-79a0317b6b77?q=80&w=1920') center center/cover; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 20px; }
-        .hero-content h2 { font-family: var(--font-serif); font-size: 3.5rem; color: var(--gold-color); margin-bottom: 20px; font-style: italic; line-height: 1.2; }
-        .hero-content p { font-size: 1.2rem; max-width: 600px; margin: 0 auto 40px; color: var(--text-light); font-weight: 300; }
+        #home-page { background-color: #ffffff; color: var(--primary-color); }
+        #home-page .hero { height: calc(100vh - 70px); background: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.75)), url('https://images.unsplash.com/photo-1541532713592-79a0317b6b77?q=80&w=1920') center center/cover; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 20px; }
+        #home-page .hero-content h2 { font-family: var(--font-serif); font-size: 3.5rem; color: var(--primary-color); margin-bottom: 20px; font-style: italic; line-height: 1.2; font-weight: 700; }
+        #home-page .hero-content p { font-size: 1.2rem; max-width: 600px; margin: 0 auto 40px; color: #3d2e24; font-weight: 500; }
         
-        .about { padding: 80px 20px; max-width: 900px; margin: 0 auto; text-align: center; }
-        .section-title { font-family: var(--font-serif); font-size: 2.5rem; color: var(--gold-color); margin-bottom: 20px; position: relative; padding-bottom: 15px; }
-        .section-title::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 1px; background-color: var(--gold-color); }
-        .about p { color: var(--text-muted); margin-top: 30px; font-size: 1.1rem; }
+        #home-page .btn-gold {
+            background-color: #402919;
+            color: #ffffff;
+            border: 1px solid #402919;
+        }
+        #home-page .btn-gold:hover {
+            background-color: var(--primary-color);
+            color: var(--gold-color);
+            box-shadow: 0 6px 20px rgba(26, 17, 11, 0.4);
+        }
 
-        .entrances { background-color: #110a06; padding: 80px 20px; display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
-        .entrance-card { background-color: var(--secondary-color); border: 1px solid rgba(212, 175, 55, 0.2); padding: 40px 20px; width: calc(50% - 15px); min-width: 280px; text-align: center; border-radius: 6px; }
-        .entrance-card h3 { font-family: var(--font-serif); font-size: 1.8rem; color: var(--gold-color); margin-bottom: 15px; }
-        .entrance-card p { color: var(--text-muted); margin-bottom: 30px; font-size: 0.95rem; }
+        #home-page .about { padding: 80px 20px; max-width: 900px; margin: 0 auto; text-align: center; }
+        #home-page .section-title { font-family: var(--font-serif); font-size: 2.5rem; color: var(--primary-color); margin-bottom: 20px; position: relative; padding-bottom: 15px; font-weight: 700; }
+        #home-page .section-title::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 1.5px; background-color: var(--light-brown); }
+        #home-page .about p { color: #4a3b32; margin-top: 30px; font-size: 1.1rem; font-weight: 400; }
+
+        #home-page .entrances { background-color: var(--bg-light); padding: 80px 20px; display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
+        #home-page .entrance-card { background-color: #ffffff; border: 1px solid #e2dacd; padding: 40px 20px; width: calc(50% - 15px); min-width: 280px; text-align: center; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); }
+        #home-page .entrance-card h3 { font-family: var(--font-serif); font-size: 1.8rem; color: var(--primary-color); margin-bottom: 15px; font-weight: 700; }
+        #home-page .entrance-card p { color: #5a4a42; margin-bottom: 30px; font-size: 0.95rem; }
 
         .shop-wrapper { background-color: var(--bg-light); color: var(--primary-color); padding: 50px 20px; min-height: 80vh; }
         .shop-content { max-width: 1200px; margin: 0 auto; }
@@ -110,6 +105,7 @@
             background-color: #fff; border: 1px solid #eee; padding: 20px; 
             text-align: center; position: relative; transition: all 0.3s; 
             display: flex; flex-direction: column; justify-content: space-between; border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
         }
         .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
         .product-img { width: 100%; height: 220px; object-fit: cover; margin-bottom: 20px; background-color: #fafafa; border-radius: 4px; }
@@ -159,18 +155,18 @@
         .modal-action-btn { padding: 15px; background-color: var(--primary-color); color: var(--gold-color); border: none; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; border-radius: 6px; cursor: pointer; transition: all 0.3s; }
         .modal-action-btn:hover { background-color: var(--secondary-color); color: #fff; }
 
-        footer { background-color: #0f0a06; padding: 60px 20px 20px; border-top: 1px solid rgba(212, 175, 55, 0.1); font-size: 0.9rem; color: var(--text-muted); }
+        footer { background-color: var(--light-brown); padding: 60px 20px 20px; border-top: 1px solid var(--light-brown-border); font-size: 0.9rem; color: #ffffff; }
         .footer-content { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 40px; text-align: left; }
-        .footer-column h5 { font-family: var(--font-serif); color: var(--gold-color); font-size: 1.2rem; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
-        .footer-column p { margin-bottom: 12px; display: flex; align-items: center; gap: 10px; font-size: 0.9rem; }
+        .footer-column h5 { font-family: var(--font-serif); color: var(--gold-color); font-size: 1.2rem; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid var(--light-brown-border); padding-bottom: 8px; font-weight: 700; }
+        .footer-column p { margin-bottom: 12px; display: flex; align-items: center; gap: 10px; font-size: 0.9rem; color: #ffffff; font-weight: 500; }
         .footer-column i { color: var(--gold-color); width: 16px; }
-        .footer-column a { color: var(--text-muted); text-decoration: none; transition: color 0.3s; }
-        .footer-column a:hover { color: var(--gold-color); }
-        .warning-text { border: 1px solid #ff4d4d; color: #ff4d4d; padding: 10px; max-width: 700px; margin: 0 auto 30px; text-transform: uppercase; font-size: 0.72rem; text-align: center; letter-spacing: 1px; line-height: 1.4; }
-        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px; text-align: center; font-size: 0.8rem; }
+        .footer-column a { color: #ffffff; text-decoration: none; transition: color 0.3s; font-weight: 600; }
+        .footer-column a:hover { color: var(--gold-hover); }
+        .warning-text { border: 2px solid #ff4d4d; color: #ff4d4d; padding: 12px; max-width: 700px; margin: 0 auto 30px; text-transform: uppercase; font-size: 0.8rem; text-align: center; letter-spacing: 1px; line-height: 1.4; background-color: rgba(255, 77, 77, 0.12); border-radius: 4px; font-weight: 800; }
+        .footer-bottom { border-top: 1px solid var(--light-brown-border); padding-top: 20px; text-align: center; font-size: 0.8rem; color: #ffffff; opacity: 0.95; font-weight: 500; }
 
         @media (max-width: 992px) {
-            .hero-content h2 { font-size: 2.8rem; }
+            #home-page .hero-content h2 { font-size: 2.8rem; }
             .modal-container { max-width: 700px; }
         }
 
@@ -178,19 +174,19 @@
             .menu-toggle { display: block; }
             .nav-links {
                 display: none; flex-direction: column; position: absolute;
-                top: 100%; left: 0; width: 100%; background-color: rgba(26, 17, 11, 0.98);
-                gap: 0; border-bottom: 1px solid rgba(212, 175, 55, 0.2); text-align: center;
-                box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+                top: 100%; left: 0; width: 100%; background-color: var(--light-brown);
+                gap: 0; border-bottom: 1px solid var(--light-brown-border); text-align: center;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.1);
             }
             .nav-links.show { display: flex; }
             .nav-links li { width: 100%; }
-            .nav-links a { display: block; padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 0.9rem; }
+            .nav-links a { display: block; padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 0.9rem; color: #ffffff; }
             
-            .hero-content h2 { font-size: 2.2rem; }
-            .hero-content p { font-size: 1.2rem; margin-bottom: 30px; }
-            .section-title { font-size: 2rem; }
-            .about p { font-size: 1rem; }
-            .entrance-card { width: 100%; padding: 30px 15px; }
+            #home-page .hero-content h2 { font-size: 2.2rem; }
+            #home-page .hero-content p { font-size: 1rem; margin-bottom: 30px; }
+            #home-page .section-title { font-size: 2rem; }
+            #home-page .about p { font-size: 1rem; }
+            #home-page .entrance-card { width: 100%; padding: 30px 15px; }
 
             .shop-header h2 { font-size: 2rem; }
             .product-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
@@ -213,18 +209,6 @@
     </style>
 </head>
 <body>
-
-    <div id="age-verify-overlay">
-        <div class="age-box">
-            <i class="fa-solid fa-shield-halved"></i>
-            <h2>XÁC MINH ĐỘ TUỔI</h2>
-            <p>Trang web này cung cấp các sản phẩm cao cấp dành riêng cho người trưởng thành. Bạn phải từ 18 tuổi trở lên để tiếp tục.</p>
-            <div class="age-buttons">
-                <button class="btn-age btn-yes" onclick="verifyAge(true)">Tôi đã trên 18</button>
-                <button class="btn-age btn-no" onclick="verifyAge(false)">Tôi dưới 18</button>
-            </div>
-        </div>
-    </div>
 
     <div id="quick-view-overlay" onclick="closeQuickView(event)">
         <div class="modal-container" onclick="event.stopPropagation()">
@@ -585,17 +569,10 @@
 
         function closeQuickView(event) {
             document.getElementById('quick-view-overlay').style.display = 'none';
-            if (localStorage.getItem('age_verified') === 'true') {
-                document.body.style.overflowY = 'auto';
-            }
+            document.body.style.overflowY = 'auto';
         }
 
         function switchPage(pageId) {
-            if (localStorage.getItem('age_verified') !== 'true') {
-                alert("Vui lòng xác minh độ tuổi trước.");
-                return;
-            }
-
             const navLinks = document.getElementById('nav-links-container');
             const menuIcon = document.getElementById('menu-icon');
             if (navLinks.classList.contains('show')) {
@@ -653,26 +630,6 @@
                 }
             });
         }
-
-        function verifyAge(isOfAge) {
-            const overlay = document.getElementById('age-verify-overlay');
-            if (isOfAge) {
-                overlay.style.display = 'none';
-                document.body.style.overflowY = 'auto'; 
-                localStorage.setItem('age_verified', 'true'); 
-            } else {
-                window.location.href = "https://www.google.com";
-            }
-        }
-
-        window.onload = function() {
-            if (localStorage.getItem('age_verified') === 'true') {
-                document.getElementById('age-verify-overlay').style.display = 'none';
-                document.body.style.overflowY = 'auto';
-            } else {
-                document.body.style.overflowY = 'hidden'; 
-            }
-        };
     </script>
 </body>
 </html>
